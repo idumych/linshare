@@ -49,6 +49,11 @@ Steps: click B's "Chat:" field, type "chat from {p} B", press Return. Bring A's 
 the front.
 PASS when: OCR of A's window, saved as {p}-chat.txt, shows "chat from {p} B".
 
+### about (not in FEATURE_CHECKS; test-linux.sh checks it)
+Steps: in B, open the "File" menu, click "About LinShare", press Return.
+PASS when: a window titled "About LinShare" appeared and was gone after Return, and the app
+log stays clean (opening a menu used to log "Looper must be locked" in Hokku).
+
 Also look at, without a gate check: a file added to A's shared folder while it runs turns
 up in B's next query (node monitoring); double-clicking B's finished download calls
 xdg-open with its path (xtest.sh's fake xdg-open log).

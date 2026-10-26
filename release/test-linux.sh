@@ -101,6 +101,18 @@ xdotool windowactivate $A; sleep 2
 shot linux-chat; ocr linux-chat > $E/linux-chat.txt
 chk chat "linux-chat.txt: \"$(grep -m1 -o "chat from $p B" $E/linux-chat.txt)\"" grep -q "chat from $p B" $E/linux-chat.txt
 
+# menus: File -> About LinShare in B (opening a menu once raced in Hokku, logged by log-clean)
+xdotool windowactivate $B; sleep 1
+eval $(xdotool getwindowgeometry --shell $B)
+click $((X + 18)) $((Y + 10)); sleep 1
+shot linux-menu
+xy=$(pos linux-menu About); [ -n "$xy" ] && click $((${xy% *} + 30)) ${xy#* }; sleep 2
+about=$(xdotool search --onlyvisible --name '^About LinShare' | head -1)
+[ -n "$about" ] && { shot linux-about; xdotool windowactivate $about; sleep 0.5; xdotool key Return; sleep 1.5; }
+gone=$(xdotool search --onlyvisible --name '^About LinShare' | head -1)
+chk about "File menu -> About LinShare: window ${about:-none}, closed with Return: $([ -z "$gone" ] && echo yes || echo no)" \
+	bash -c "[ -n '$about' ] && [ -z '$gone' ]"
+
 # quit both with the app's own shortcut (Ctrl+Q on Linux)
 for w in $A $B; do xdotool windowactivate $w; sleep 1; xdotool key ctrl+q; sleep 1; done
 for i in $(seq 10); do pgrep -x LinShare > /dev/null || break; sleep 1; done
