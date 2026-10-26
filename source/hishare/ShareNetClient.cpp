@@ -19,6 +19,7 @@
 
 #include "ShareStrings.h"
 #include "ShareConstants.h"
+#include "ShareUtils.h"
 #include "ShareFileTransfer.h"
 #include "ShareNetClient.h"
 #include "ShareWindow.h"
@@ -513,12 +514,12 @@ NodeRemoved(const node_ref & node)
       entry_ref ref;
       if ((_nodeToEntry.Remove(node, ref) == B_NO_ERROR)&&(_mtt))
       {
-         UnrefFilename(ref.name);
+         UnrefFilename(RefLeaf(ref));
          if (_nodeRemoveMessage() == NULL) _nodeRemoveMessage = GetMessageFromPool(PR_COMMAND_REMOVEDATA);
          if (_nodeRemoveMessage())
          {
             String path(GetFilesNodePath());
-            path += ref.name;
+            path += RefLeaf(ref);
             EscapeRegexTokens(path);
             _nodeRemoveMessage()->AddString(PR_NAME_KEYS, path());
             if ((_nodeRemoveBatchCount == 0)||(_nodeRemoveMessage()->GetNumValuesInName(PR_NAME_KEYS) > 50)) 
@@ -588,10 +589,10 @@ NodeCreated(const node_ref & noderef, const entry_ref & entryref)
          off_t fileSize;
          if (GetFileInfo(value, entryref, noderef, wdd->_path, fileSize) == B_NO_ERROR)
          {
-            RefFilename(entryref.name, entryref, fileSize);
+            RefFilename(RefLeaf(entryref), entryref, fileSize);
             _nodeToEntry.Put(noderef, entryref);
             String nodepath(GetFilesNodePath());
-            nodepath += entryref.name;
+            nodepath += RefLeaf(entryref);
             SetDataNodeValue(nodepath(), value);
          }
       }
@@ -965,7 +966,7 @@ AddWatchedDirectory(const node_ref & dirNode, const BEntry & entry, thread_id * 
    {
       String newPath(path);
       newPath += '/';
-      newPath += er.name;
+      newPath += RefLeaf(er);
 
       WatchedDirData wdd(er, newPath);
       _watchedDirs.Put(dirNode, wdd);  // file it under (dirNode), as that's what the node monitor will refer to it by
@@ -1000,7 +1001,7 @@ AddWatchedDirectory(const node_ref & dirNode, const BEntry & entry, thread_id * 
                }
                else
                {
-                  if ((diffsOnly == false)||(_nameToEntry.ContainsKey(entryRef.name) == false))
+                  if ((diffsOnly == false)||(_nameToEntry.ContainsKey(RefLeaf(entryRef)) == false))
                   {
                      BNode node(&entryRef);
                      if (node.InitCheck() == B_NO_ERROR)
@@ -1010,11 +1011,11 @@ AddWatchedDirectory(const node_ref & dirNode, const BEntry & entry, thread_id * 
                         off_t fileSize;
                         if ((node.GetNodeRef(&nodeRef) == B_NO_ERROR)&&(GetFileInfo(nextFileRef, entryRef, nodeRef, newPath, fileSize) == B_NO_ERROR))
                         {
-                           RefFilename(entryRef.name, entryRef, fileSize);
+                           RefFilename(RefLeaf(entryRef), entryRef, fileSize);
                            _nodeToEntry.Put(nodeRef, entryRef);
                            String nextpath(GetFilesNodePath());
       
-                           nextpath += entryRef.name;
+                           nextpath += RefLeaf(entryRef);
 
                            MessageRef packed = DeflateMessage(nextFileRef, 9, true);
                            if (packed())
@@ -1176,7 +1177,7 @@ GetFileInfo(MessageRef & infoMessage, const entry_ref & entryRef, const node_ref
                
             }
             #ifdef DEBUG
-                printf("\nBuilt infoMessage for %s:\n", entryRef.name);
+                printf("\nBuilt infoMessage for %s:\n", RefLeaf(entryRef));
                 infoMessage()->PrintToStream();
             #endif
             return B_NO_ERROR;
@@ -1240,7 +1241,7 @@ SetLocalUserName(const char * name)
          nameMessage()->AddInt32("port", _localSharePort);
          nameMessage()->AddInt64("installid", ((ShareWindow*)Looper())->GetInstallID());
          // Identify ourselves!
-         nameMessage()->AddString("version_name", "HiShare");
+         nameMessage()->AddString("version_name", BESHARE_APP_NAME);
          nameMessage()->AddString("version_num", VERSION_STRING);
          nameMessage()->AddBool("supports_partial_hashing", true);  // as of 2.07, we support this feature
          nameMessage()->AddBool("supports_ranges", true);  // this build honors "maxbytes" byte-range requests (resume/swarming)

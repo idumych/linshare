@@ -1,6 +1,8 @@
 #include <stdio.h>
+#include <string.h>
 #include <app/Message.h>
 #include <Notification.h>
+#include "ShareConstants.h"
 #include "ShareUtils.h"
 #include "util/StringTokenizer.h"
 
@@ -16,7 +18,7 @@ ShowNotification(const char * group, const char * title, const char * content)
 {
    if (_notificationsEnabled == false) return;
    BNotification n(B_INFORMATION_NOTIFICATION);
-   n.SetGroup(group ? group : "HiShare");
+   n.SetGroup(group ? group : BESHARE_APP_NAME);
    if (title)   n.SetTitle(title);
    if (content) n.SetContent(content);
    (void) n.Send();
@@ -124,6 +126,16 @@ bool IsLink(const char * str)
            (strncmp(str, "ftp://",   6) == 0) || (strncmp(str, "audio://", 8) == 0) ||
            (strncmp(str, "beshare:", 8) == 0) || (strncmp(str, "priv:",    5) == 0) ||
            (strncmp(str, "share:",   6) == 0));
+}
+
+const char * RefLeaf(const entry_ref & ref)
+{
+   if (ref.name == NULL) return "";
+#ifdef APP_COSMOE
+   const char * slash = strrchr(ref.name, '/');
+   if (slash) return slash+1;
+#endif
+   return ref.name;
 }
 
 };  // end namespace beshare

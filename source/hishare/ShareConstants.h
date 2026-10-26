@@ -23,7 +23,12 @@ namespace beshare {
 // The MUSCLE wire protocol is unchanged (node paths "beshare/files", the
 // "version_name"/"beshare_version" fields, install-ids) so HiShare interoperates
 // with existing BeShare servers and clients.
-#define BESHARE_MIME_TYPE "application/x-vnd.HiShare"
+//
+// LinShare is HiShare for Linux (built with Cosmoe/Hokku): again its own name,
+// signature, settings and data folder, and the same wire protocol.
+#define BESHARE_MIME_TYPE "application/x-vnd.LinShare"
+#define BESHARE_APP_NAME  "LinShare"
+#define BESHARE_DATA_DIR_NAME "LinShare"
 #define FACTORY_DEFAULT_USER_NAME        "binky"
 #define FACTORY_DEFAULT_USER_STATUS      "here"
 #define FACTORY_DEFAULT_USER_AWAY_STATUS "away"

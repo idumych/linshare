@@ -222,8 +222,11 @@ void ReflowingTextView :: MouseDown(BPoint where)
 
 void ReflowingTextView :: FixTextRect()
 {
-   BRect t(Frame());
-   SetTextRect(t);
+   // The text rect is in the view's own coordinates.  Frame() is the parent's:
+   // once the chat was scrolled down, BTextView read it against the scrolled
+   // Bounds() as a bottom inset taller than the view, and the text vanished on
+   // the next resize.
+   SetTextRect(Bounds());
 }
 
 void ReflowingTextView :: Clear()

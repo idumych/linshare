@@ -306,7 +306,7 @@ public:
 protected:
    virtual void UserChatted();
    virtual void MenusBeginning();
-   virtual const char * GetLogFileNamePrefix() const {return "HiShare";}
+   virtual const char * GetLogFileNamePrefix() const {return BESHARE_APP_NAME;}
 
 private:
    status_t SetupNewDownload(const RemoteUserItem * user, ShareFileTransfer * xfer, bool forceRemoteIsFirewalled);

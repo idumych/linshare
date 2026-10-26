@@ -15,10 +15,12 @@
 #include <interface/ScrollBar.h>
 #include <interface/ScrollView.h>
 #include <interface/Input.h>
+#include <storage/FindDirectory.h>
 #include <storage/Path.h>
 
 #include <support/Beep.h>
 
+#include "ShareConstants.h"
 #include "ShareStrings.h"
 #include "ChatWindow.h"
 #include "Colors.h"
@@ -324,10 +326,10 @@ ChatTextReceivedBeep(bool isPersonal, bool mentionsName)
       // Only pop a desktop notification when this window isn't the active one,
       // so we don't distract the user while they're already reading the chat.
       if (IsActive() == false)
-         ShowNotification("HiShare Chat",
+         ShowNotification(BESHARE_APP_NAME " Chat",
                           isPersonal ? "Private message" : "You were mentioned",
-                          isPersonal ? "You received a private message in HiShare."
-                                     : "Your name was mentioned in HiShare chat.");
+                          isPersonal ? "You received a private message in " BESHARE_APP_NAME "."
+                                     : "Your name was mentioned in " BESHARE_APP_NAME " chat.");
    }
 }
 
@@ -985,11 +987,11 @@ DispatchMessage(BMessage * msg, BHandler * target)
                   default: linkStr += ',';        break;
                }
    
-               String next = ref.name;
+               String next = RefLeaf(ref);
                if (humanReadableNames.Length() > 0) humanReadableNames += ", ";
                humanReadableNames += next;
                next.Replace('@', '?');  // @ signs would confuse us!
-               next = GetQualifiedSharedFileName(ref.name); 
+               next = GetQualifiedSharedFileName(RefLeaf(ref)); 
                int32 atIdx = next.IndexOf('@');
                if (atIdx >= 0)
                {
@@ -1233,7 +1235,9 @@ ChatWindow :: GetAppSubdir(const char * subDirName, BDirectory & subDir, bool cr
    // BESHARE_HOME overrides the base directory (portable installs, multi-instance testing).
 
    const char * baseDirName = getenv("BESHARE_HOME");
-   if (baseDirName == NULL) baseDirName = "/boot/home/HiShare";
+   BPath homePath;
+   if ((baseDirName == NULL)&&(find_directory(B_USER_DIRECTORY, &homePath) == B_OK)&&(homePath.Append(BESHARE_DATA_DIR_NAME) == B_OK)) baseDirName = homePath.Path();
+   if (baseDirName == NULL) baseDirName = "/boot/home/" BESHARE_DATA_DIR_NAME;
    (void) create_directory(baseDirName, 0755);  // assume we always want this to exist
    BDirectory appDir(baseDirName);
    

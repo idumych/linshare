@@ -4,6 +4,7 @@
 #include <time.h>
 #include <support/SupportDefs.h>
 #include <interface/GraphicsDefs.h>
+#include <storage/Entry.h>
 #include "BeShareNameSpace.h"
 #include "util/String.h"
 
@@ -27,6 +28,10 @@ String SubstituteLabelledURLs(const String & shortName);
 
 // Returns true iff (str) is recognized as having a hyperlink prefix
 bool IsLink(const char * str);
+
+// Returns the file name of (ref).  On Haiku that's ref.name; Cosmoe keeps the
+// full path there, and only the last component must reach the network.
+const char * RefLeaf(const entry_ref & ref);
 
 // --- Desktop notifications (Haiku BNotification) ---------------------------
 // Enable/disable BeShare's use of native desktop notifications (persisted

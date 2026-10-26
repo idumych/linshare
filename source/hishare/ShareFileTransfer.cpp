@@ -755,7 +755,7 @@ MessageReceived(BMessage * msg)
                            ((ShareWindow*)Looper())->DoBeep(SYSTEM_SOUND_DOWNLOAD_FINISHED);
                            String detail = (_currentFileName.Length() > 0) ? _currentFileName : String("File transfer");
                            if (_remoteUserName.Length() > 0) { detail += " ("; detail += _remoteUserName; detail += ")"; }
-                           ShowNotification("HiShare Downloads", "Download complete", detail.Cstr());
+                           ShowNotification(BESHARE_APP_NAME " Downloads", "Download complete", detail.Cstr());
                         }
                      }
 
@@ -1780,11 +1780,9 @@ void
 ShareFileTransfer ::
 OpenCurrentFileFolder()
 {
-    node_ref tempRef;
-    tempRef.device = _currentFileEntry.device;
-    tempRef.node = _currentFileEntry.directory;
-    BDirectory dir(&tempRef);
-    ((ShareWindow*)Looper())->OpenTrackerFolder(dir);
+    BEntry entry(&_currentFileEntry), parent;
+    BDirectory dir;
+    if ((entry.GetParent(&parent) == B_NO_ERROR)&&(dir.SetTo(&parent) == B_NO_ERROR)) ((ShareWindow*)Looper())->OpenTrackerFolder(dir);
 }
 
 status_t

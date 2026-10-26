@@ -3,6 +3,7 @@
  *  synthesized in hand-written x86-64 assembly (pirate_asm.S).
  */
 #include "PirateDemo.h"
+#include "ShareConstants.h"
 
 #include <Bitmap.h>
 #include <Font.h>
@@ -17,8 +18,24 @@
 #include <string.h>
 
 // The chiptune waveform generator, hand-written in assembly.
+#if defined(__x86_64__)
 extern "C" void pirate_square_fill(int16_t * out, uint32_t frames,
                                    uint32_t * phase, uint32_t phaseInc, int16_t amp);
+#else
+// Other CPUs (LinShare's aarch64 build): the same oscillator as pirate_asm.S,
+// in C.  The phase wraps at 2^32 and its top bit picks +amp or -amp.
+static void pirate_square_fill(int16_t * out, uint32_t frames,
+                               uint32_t * phase, uint32_t phaseInc, int16_t amp)
+{
+   uint32_t p = *phase;
+   for (uint32_t i=0; i<frames; i++)
+   {
+      p += phaseInc;
+      out[i] = (p & 0x80000000u) ? (int16_t)-amp : amp;
+   }
+   *phase = p;
+}
+#endif
 
 namespace beshare {
 
@@ -236,7 +253,7 @@ private:
 // ---------------------------------------------------------------------------
 
 PirateDemoWindow::PirateDemoWindow()
-   : BWindow(BRect(0, 0, 639, 399), "HiShare \xE2\x98\xA0 the Haiku pirates ride",
+   : BWindow(BRect(0, 0, 639, 399), BESHARE_APP_NAME " \xE2\x98\xA0 the Haiku pirates ride",
              B_TITLED_WINDOW, B_NOT_ZOOMABLE | B_NOT_RESIZABLE | B_ASYNCHRONOUS_CONTROLS)
    , _view(NULL), _player(NULL), _chip(NULL)
 {
@@ -258,7 +275,7 @@ PirateDemoWindow::PirateDemoWindow()
    StartNote(chip, 0);
    _chip = chip;
 
-   _player = new BSoundPlayer(&fmt, "HiShare chiptune", &FillBuffer, NULL, chip);
+   _player = new BSoundPlayer(&fmt, BESHARE_APP_NAME " chiptune", &FillBuffer, NULL, chip);
    if (_player->InitCheck() == B_OK) { _player->SetVolume(0.55f); _player->Start(); _player->SetHasData(true); }
 
    // ~30 fps animation ticks.

@@ -12,8 +12,8 @@
 
 namespace beshare {
 
-#define BESHARE_SETTINGS_FILE_NAME "hishare_settings"
-#define BESHARE_USER_KEY_FILE_NAME "hishare_user_key"
+#define BESHARE_SETTINGS_FILE_NAME "linshare_settings"
+#define BESHARE_USER_KEY_FILE_NAME "linshare_user_key"
 
 ShareApplication :: ShareApplication(const char * optConnectTo) : BApplication(BESHARE_MIME_TYPE), _window(NULL), _optConnectTo(optConnectTo)
 {

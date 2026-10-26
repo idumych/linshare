@@ -1193,11 +1193,9 @@ public:
 
                      case OPEN_FOLDER:
                      {
-                        node_ref tempRef;
-                        tempRef.device = er.device;
-                        tempRef.node   = er.directory;
-                        BDirectory dir(&tempRef);
-                        win->OpenTrackerFolder(dir);  
+                        BEntry entry(&er), parent;
+                        BDirectory dir;
+                        if ((entry.GetParent(&parent) == B_NO_ERROR)&&(dir.SetTo(&parent) == B_NO_ERROR)) win->OpenTrackerFolder(dir);
                      }
                      break;
                   }
@@ -1399,7 +1397,7 @@ private:
 static const BRect defaultPrivateRect(100,300,500,475);
 
 ShareWindow :: ShareWindow(uint64 installID, BMessage & settingsMsg, const char * connectServer) :
-   ChatWindow(BRect(WINDOW_START_X,WINDOW_START_Y,WINDOW_START_X+WINDOW_START_W,WINDOW_START_Y+WINDOW_START_H),"HiShare",B_TITLED_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL,0L),
+   ChatWindow(BRect(WINDOW_START_X,WINDOW_START_Y,WINDOW_START_X+WINDOW_START_W,WINDOW_START_Y+WINDOW_START_H),BESHARE_APP_NAME,B_TITLED_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL,0L),
    _queryEnabled(false),
    _nextConnID(0),
    _connectionsMenu(NULL),
@@ -2527,7 +2525,7 @@ AddDroppedRefsToShared(const BMessage * msg)
 
       // The share scanner follows symlinks, so a symlink shares the real file or
       // folder without copying it.
-      status_t rc = _shareDir.CreateSymLink(ref.name, srcPath.Path(), NULL);
+      status_t rc = _shareDir.CreateSymLink(RefLeaf(ref), srcPath.Path(), NULL);
       if (rc == B_NO_ERROR) added++;
       else                  skipped++;   // already present, or couldn't create
    }
@@ -3261,14 +3259,11 @@ DequeueTransferSessions(bool upload)
 
 void ShareWindow :: OpenTrackerFolder(const BDirectory & dir)
 {
-   BEntry entry(&dir, ".", true);
+   // Launching a folder opens it in Tracker on Haiku, and in the desktop's
+   // file manager on Linux (Hokku hands it to xdg-open).
+   BEntry entry;
    entry_ref ref;
-   if (entry.GetRef(&ref) == B_NO_ERROR)
-   {
-      BMessage msg(B_REFS_RECEIVED);
-      msg.AddRef("refs", &ref);
-      BMessenger("application/x-vnd.Be-TRAK").SendMessage(&msg);
-   }
+   if ((dir.GetEntry(&entry) == B_NO_ERROR)&&(entry.GetRef(&ref) == B_NO_ERROR)) be_roster->Launch(&ref);
 }
 
 
@@ -3905,7 +3900,7 @@ void ShareWindow :: MessageReceived(BMessage * msg)
                _publicMappingStr = rbuf;
                UpdateTitleBar();
             }
-            ShowNotification("HiShare",
+            ShowNotification(BESHARE_APP_NAME,
                              (reachable == 1) ? "Reachable from the internet"
                            : (reachable == 0) ? "Not reachable (behind NAT)"
                                               : "Reachability unknown",
@@ -4548,11 +4543,12 @@ void ShareWindow :: MessageReceived(BMessage * msg)
       {
          char temp[512];
          snprintf(temp, sizeof(temp),
-            "HiShare v%s\n\n"
+            BESHARE_APP_NAME " v%s\n\n"
+            "HiShare for Linux, built with Hokku (Cosmoe).\n\n"
             "It all started as an update to BeShare 3.04 — the classic\n"
             "MUSCLE file-sharing & chat client — modernized for Haiku.\n\n"
             "Original BeShare by Jeremy Friesner & Vitaliy Mikitchenko.\n"
-            "Haiku modernization by atomozero.\n"
+            "HiShare (Haiku modernization) by atomozero:\n"
             "https://github.com/atomozero/HiShare\n\n"
             "This software may contain\n"
             "traces of peanuts and LLM.",
@@ -5087,12 +5083,12 @@ UpdateTitleBar()
    // shared-file count and the public/reachability address all live in the header
    // banner now.  A user-set custom window title still takes precedence.
    const String & custom = GetCustomWindowTitle();
-   SetTitle((custom.Length() > 0) ? custom() : "HiShare");
+   SetTitle((custom.Length() > 0) ? custom() : BESHARE_APP_NAME);
 
    // Mirror the connection state into the modern header banner.
    if (_headerBanner)
    {
-      const char * uname = (_userNameEntry && _userNameEntry->Text()[0]) ? _userNameEntry->Text() : "HiShare";
+      const char * uname = (_userNameEntry && _userNameEntry->Text()[0]) ? _userNameEntry->Text() : BESHARE_APP_NAME;
       // Count connection states so multi-server setups show an aggregate:
       // green dot only when every connection is up, amber when partial.
       uint32 numConnected = 0;
@@ -5208,7 +5204,7 @@ QuitRequested()
       {
          char temp[512];
          sprintf(temp, str(STR_TRANSFERS_IN_PROGRESS_ARE_YOU_SURE_YOU_WANT_TO_QUIT), numInProgress);
-         if ((new BAlert("HiShare", temp, str(STR_QUIT), str(STR_DONT_QUIT)))->Go()) return false;
+         if ((new BAlert(BESHARE_APP_NAME, temp, str(STR_QUIT), str(STR_DONT_QUIT)))->Go()) return false;
       }
       be_app->PostMessage(B_QUIT_REQUESTED);
    }

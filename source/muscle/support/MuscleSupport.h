@@ -288,7 +288,10 @@ typedef void * muscleVoidPointer;  /* it's a bit easier, syntax-wise, to use thi
                      (((unsigned long)(x[2])) <<  8) | \
                      (((unsigned long)(x[3])) <<  0))
 
-#if !defined(__BEOS__) && !defined(__HAIKU__)
+#if defined(APP_COSMOE)
+/* LinShare: Cosmoe (the Haiku API on Linux) defines these, as Haiku does */
+# include <TypeConstants.h>
+#elif !defined(__BEOS__) && !defined(__HAIKU__)
 /* Be-style message-field type codes.
  * I've calculated the integer equivalents for these codes
  * because gcc whines like a little girl about the four-byte
