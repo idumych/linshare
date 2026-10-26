@@ -9,6 +9,12 @@ so it chats, searches and transfers files with BeShare and HiShare users on Haik
 All the credit for the application goes to Jeremy Friesner and Vitaliy Mikitchenko
 (BeShare) and atomozero (HiShare). HiShare's README follows below; it describes the app.
 
+## Screenshots
+
+![LinShare on Linux: search results, a finished download and chat](docs/screenshots/linux-search-download-chat.png)
+
+Linux (X11): a search for everything another user shares, a finished download, and chat.
+
 ## Download and run
 
 Get `LinShare-<version>-x86_64.AppImage` (or `-aarch64` on ARM) from the
