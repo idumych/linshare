@@ -7,7 +7,8 @@ Cosmoe (the Haiku API as a library, on X11 and Wayland). It speaks the same MUSC
 so it chats, searches and transfers files with BeShare and HiShare users on Haiku and BeOS.
 
 All the credit for the application goes to Jeremy Friesner and Vitaliy Mikitchenko
-(BeShare) and atomozero (HiShare). HiShare's README follows below; it describes the app.
+(BeShare) and atomozero (HiShare). LinShare only adds what Linux needs; for what the app
+does, see [HiShare's original README](#hishares-original-readme) at the end of this page.
 
 ## Screenshots
 
@@ -50,6 +51,18 @@ With Hokku installed under a prefix (see Hokku's README), from the top of this r
 tested on Linux. Release AppImages are built by `.github/workflows/appimage.yml` on Ubuntu 24.04.
 
 ---
+
+## HiShare's original README
+
+> **Everything below is HiShare's own README,** as written by atomozero for HiShare 1.2 on
+> Haiku ([atomozero/HiShare](https://github.com/atomozero/HiShare)), kept for its description
+> of the app. Read it with Linux in mind:
+>
+> - Its **Quick start** and **Build** sections build the Haiku version in `source/hishare`.
+>   On Linux, use [Download and run](#download-and-run) and [Building](#building) above.
+> - Where it says HiShare, Haiku or Tracker, LinShare uses its own name, `~/LinShare` and
+>   your desktop's file manager; see [What differs on Linux](#what-differs-on-linux).
+> - The **Support** link at the end goes to HiShare's author, atomozero.
 
 <p align="center">
   <img src="hishare-icon.png" width="128" alt="HiShare icon">
