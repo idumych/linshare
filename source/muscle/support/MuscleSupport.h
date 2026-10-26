@@ -757,6 +757,11 @@ static inline uint64 MuscleX86SwapInt64(uint64 val)
 #  define B_SWAP_INT64(arg)    MuscleX86SwapInt64((uint64)(arg))
 #  define B_SWAP_INT32(arg)    MuscleX86SwapInt32((uint32)(arg))
 #  define B_SWAP_INT16(arg)    MuscleX86SwapInt16((uint16)(arg))
+# elif defined(APP_COSMOE) && defined(B_SWAP_INT64)
+/* LinShare: Cosmoe's <ByteOrder.h> already defines B_SWAP_INT64/32/16 (with
+ * __builtin_bswap), as Haiku does.  The inline C versions below would be
+ * functions with those names, which the macros turn into syntax errors (on
+ * CPUs without the assembly versions above, e.g. aarch64). */
 # else
 
 // No assembly language available... so we'll use inline C
