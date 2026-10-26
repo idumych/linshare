@@ -15,10 +15,15 @@ All the credit for the application goes to Jeremy Friesner and Vitaliy Mikitchen
 
 Linux (X11): a search for everything another user shares, a finished download, and chat.
 
+![Two LinShare users and a private chat window](docs/screenshots/linux-private-chat.png)
+
+A private chat (`/priv`): the message shows in the sender's private window and, highlighted,
+in the other user's main window.
+
 ## Download and run
 
 Get `LinShare-<version>-x86_64.AppImage` (or `-aarch64` on ARM) from the
-[releases](https://github.com/idumych/linshare/releases), then:
+[latest release](https://github.com/idumych/linshare/releases/latest), then:
 
     chmod +x LinShare-*-x86_64.AppImage
     ./LinShare-*-x86_64.AppImage
