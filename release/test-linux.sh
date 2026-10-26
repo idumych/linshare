@@ -103,8 +103,9 @@ chk chat "linux-chat.txt: \"$(grep -m1 -o "chat from $p B" $E/linux-chat.txt)\""
 
 # menus: File -> About LinShare in B (opening a menu once raced in Hokku, logged by log-clean)
 xdotool windowactivate $B; sleep 1
-eval $(xdotool getwindowgeometry --shell $B)
-click $((X + 18)) $((Y + 10)); sleep 1
+# (not eval --shell: that would overwrite X, the evidence file)
+bx=$(xdotool getwindowgeometry --shell $B | sed -n 's/^X=//p'); by=$(xdotool getwindowgeometry --shell $B | sed -n 's/^Y=//p')
+click $((bx + 18)) $((by + 10)); sleep 1
 shot linux-menu
 xy=$(pos linux-menu About); [ -n "$xy" ] && click $((${xy% *} + 30)) ${xy#* }; sleep 2
 about=$(xdotool search --onlyvisible --name '^About LinShare' | head -1)
