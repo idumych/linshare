@@ -1,3 +1,45 @@
+# LinShare
+
+**HiShare for Linux.** LinShare is [HiShare](https://github.com/atomozero/HiShare), the
+modernized edition of the classic BeShare file-sharing and chat client, built for any
+x86_64 or aarch64 Linux desktop with [Hokku](https://github.com/idumych/hokku), a fork of
+Cosmoe (the Haiku API as a library, on X11 and Wayland). It speaks the same MUSCLE protocol,
+so it chats, searches and transfers files with BeShare and HiShare users on Haiku and BeOS.
+
+All the credit for the application goes to Jeremy Friesner and Vitaliy Mikitchenko
+(BeShare) and atomozero (HiShare). HiShare's README follows below; it describes the app.
+
+## Download and run
+
+Get `LinShare-<version>-x86_64.AppImage` (or `-aarch64` on ARM) from the
+[releases](https://github.com/idumych/linshare/releases), then:
+
+    chmod +x LinShare-*-x86_64.AppImage
+    ./LinShare-*-x86_64.AppImage
+
+It needs glibc 2.39 or newer (Ubuntu 24.04, Fedora 40, Debian 13 and later). Settings go in
+`~/.config/cosmoe/linshare_settings`; shared files, downloads and logs in `~/LinShare/`
+(override with `BESHARE_HOME`). An optional first argument is a server to connect to.
+
+## What differs on Linux
+
+* Opening a file, its folder or a link uses your desktop's default applications
+  (`xdg-open`).
+* `/screenshot` works on X11. Wayland doesn't let applications read the screen, so there
+  it can't take one.
+
+## Building
+
+With Hokku installed under a prefix (see Hokku's README), from the top of this repository:
+
+    make COSMOE_ROOT=<prefix>/usr
+    LD_LIBRARY_PATH=<prefix>/usr/lib ./LinShare
+
+`source/hishare/Makefile` is HiShare's own Haiku build; LinShare itself is only built and
+tested on Linux. Release AppImages are built by `.github/workflows/appimage.yml` on Ubuntu 24.04.
+
+---
+
 <p align="center">
   <img src="hishare-icon.png" width="128" alt="HiShare icon">
 </p>

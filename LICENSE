@@ -1,3 +1,14 @@
+LinShare — licensing overview
+=============================
+
+LinShare is HiShare (https://github.com/atomozero/HiShare) built for Linux with
+Hokku, a fork of Cosmoe. The LinShare changes (2026) are released into the
+public domain, like the HiShare and BeShare application code they modify.
+The AppImage also contains Hokku/Cosmoe (MIT licence, see COSMOE-LICENSE.md
+next to this file) and the system libraries listed under usr/share/doc.
+
+HiShare's own overview follows, then the full texts of the licences it names.
+
 HiShare — licensing overview
 ============================
 
@@ -37,3 +48,117 @@ NOT a secret. It is a well-known, shared key that ships inside every binary
 and provides opportunistic transport encryption only (protection against
 passive eavesdropping), not authentication. See the comments in that file,
 including how to regenerate the pair.
+
+
+========================================================================
+MUSCLE (source/muscle/LICENSE)
+========================================================================
+
+All source code in this archive (except for the "csharp", "regex/regex",
+"delphi", and "zlib/zlib" subfolders) is Copyright 2000-2007
+Meyer Sound Laboratories Inc.
+
+The "csharp" subfolder was written by Wilson Yeung, and is included
+by permission.
+
+The "regex/regex" subfolder's contents were written by Henry Spencer,
+and are used by permission.  See the file regex/regex/COPYRIGHT for details.
+
+The "zlib/zlib" subfolder's contents were written by Jean-loup Gailly
+and Mark Adler and are used by permission.  See the file 
+zlib/zlib/README for details.
+
+The "delphi" subfolder's contents were written by Matthew Emson,
+and are used by permission.  See the file delphi/licence-delphi.txt
+for details.
+
+----------------------------------------------------------------------
+
+The rest of the code in this archive is licensed under the 
+BSD Open Source License, which is as follows:
+
+----------------------------------------------------------------------
+Copyright (c) 2000-2009, Meyer Sound Laboratories Inc.  All rights reserved.
+
+Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:
+
+Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.
+Redistributions in binary form must reproduce the above copyright 
+notice, this list of conditions and the following disclaimer in the 
+documentation and/or other materials provided with the distribution.
+Neither the name of Meyer Sound Laboratories Inc., nor the names of its 
+contributors may be used to endorse or promote products derived from 
+this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY 
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, 
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
+DAMAGE.
+
+If you make modifications to the source code that you 
+think would be generally useful, you are encouraged to 
+send them to me (at the email address below) for 
+inclusion into subsequent releases of this distribution.
+
+Jeremy Friesner
+jaf@lcsaudio.com
+jaf@meyersound.com
+
+
+========================================================================
+Santa's Gift Bag (source/hishare/santa/License)
+========================================================================
+
+License
+
+The source code, object code, libraries, and the other components of Santa's Gift Bag are being made publicly available and free to use in freeware and shareware products with a price under $25 (I believe that shareware should be cheap). For overpriced shareware (hehehe) or commercial products, please contact me to negotiate a fee for use. After all, I did work hard on these classes and invested a lot of time into it. That being said, DON'T WORRY I don't want much. It totally depends on the sort of project you're working on and how much you expect to make off it. If someone makes money using my work, I'd like to get at least a little something for my contribution to that profit.
+
+If any of the components of Santa's Gift Bag are is used in a shareware or commercial product, I get a free copy.  The source is made available so that you can improve and extend it as you need. In general it is best to customize these classes through inheritance, leaving the original Santa's Gift Bag source code unmodified, so that you can take advantage of enhancements and bug fixes as they become available. 
+
+Feel free to distribute any components of this archive, but you are required to keep the documentation and license with it.  If you wish to distribute modified source, also feel free to do so, but do so in such a manner that it is very clear what was modified, why, how, that it is not an official Santa's Gift Bag release, and you are also required to keep the documentation and license with any modified versions.
+
+I can be contacted at:
+briant@timelinevista.com
+
+Thank you for using Santa's Gift Bag, and enjoy!
+
+
+========================================================================
+zlib (source/muscle/zlib/zlib/README)
+========================================================================
+
+Copyright notice:
+
+ (C) 1995-2013 Jean-loup Gailly and Mark Adler
+
+  This software is provided 'as-is', without any express or implied
+  warranty.  In no event will the authors be held liable for any damages
+  arising from the use of this software.
+
+  Permission is granted to anyone to use this software for any purpose,
+  including commercial applications, and to alter it and redistribute it
+  freely, subject to the following restrictions:
+
+  1. The origin of this software must not be misrepresented; you must not
+     claim that you wrote the original software. If you use this software
+     in a product, an acknowledgment in the product documentation would be
+     appreciated but is not required.
+  2. Altered source versions must be plainly marked as such, and must not be
+     misrepresented as being the original software.
+  3. This notice may not be removed or altered from any source distribution.
+
+  Jean-loup Gailly        Mark Adler
+  jloup@gzip.org          madler@alumni.caltech.edu

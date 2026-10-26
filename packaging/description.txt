@@ -1,0 +1,3 @@
+LinShare is HiShare, the modernized edition of the classic BeShare file-sharing and chat client, built for Linux with Hokku, a fork of Cosmoe (the Haiku API as a library).
+
+Connect to BeShare/MUSCLE servers, chat in public and in private, search the files other users share and download them, and share your own folder. It talks to the same servers, and the same Haiku and BeOS clients, as BeShare and HiShare.

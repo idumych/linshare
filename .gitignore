@@ -19,3 +19,12 @@ source/hishare/locale/_catkeys_src.*
 *.orig
 *.rej
 .DS_Store
+
+# LinShare build and release outputs
+/LinShare
+obj/
+dist/
+*.hpkg
+*.AppImage
+.cosmoe/
+.haiku-headers/
